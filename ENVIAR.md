@@ -110,6 +110,19 @@ https://addons.opera.com/developer/ → el mismo `.zip`. Revisión 1–5 días.
 
 ## Antes de pulsar enviar
 
+Ejecuta primero el preflight. Si dice `LISTO PARA ENVIAR`, no hay nada más que
+comprobar:
+
+```powershell
+powershell -NoProfile -File tools\preflight.ps1 -Lint
+```
+
+Comprueba los tres gates, que la versión coincida en los dos manifiestos, que los
+paquetes existan y contengan lo que prometen, que las imágenes tengan las
+dimensiones exactas, que las dos URLs respondan 200, que lo publicado en GitHub
+coincida byte a byte con lo local, y que `web-ext lint` no dé errores.
+
+- [ ] El preflight imprime `LISTO PARA ENVIAR`.
 - [ ] El zip que subo es el del release `v1.1.0` (14 650 B).
 - [ ] La URL de privacidad abre en una ventana privada, sin sesión (HTTP 200).
 - [ ] Las tres capturas son 1280x800 exactos.

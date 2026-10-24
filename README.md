@@ -82,7 +82,13 @@ powershell -NoProfile -File pack.ps1
 It validates the manifest, stages only the files Chrome needs
 (`manifest.json`, `background.js`, `options.html`, `options.js`, `privacy.md`,
 `icons/`), zips them with the manifest at the archive root, and prints the byte
-size and SHA-256.
+size, the entry count and the SHA-256.
+
+> Archive entries are written with `/` on purpose.
+> `ZipFile.CreateFromDirectory` on .NET Framework writes `icons\icon128.png`,
+> and both Chrome and AMO read that back as a single file whose *name* contains
+> a backslash — the icon never resolves. `pack.ps1` builds the entries by hand
+> and asserts that no entry contains a backslash before it reports success.
 
 Expected output today:
 
