@@ -92,13 +92,40 @@ whatsapp-web-deluxe.zip   11 4xx bytes
 ```bash
 node tools/validate.js           # 13/13 — Chromium manifest, icons, permissions, no remote code
 node tools/validate-firefox.js   #  6/6  — Gecko manifest, forbidden permissions, script order
-node test-background.js          #  6/6  — window reuse, badge, cleanup, foreign tabs ignored
+node test-background.js          # 10/10 — mock, no dependencies, no test framework
+powershell -File integration.ps1 #  9/9  — real browser over CDP, not a mock
 ```
 
-Both run in CI on every push. The test uses a hand-written `chrome` mock (no
-dependencies, no test framework) and asserts the four behaviours that actually
-matter: create the popup at the right size, focus instead of duplicating, set
-and clear the badge, ignore tabs that are not WhatsApp.
+The three static checks run in CI on every push, plus `web-ext lint` on the
+Firefox build.
+
+### Verified in a real browser, not just in a mock
+
+`integration.ps1` starts a Chromium with the extension loaded, connects to the
+live service worker over CDP, and asserts what the user actually sees:
+
+```
+service worker: chrome-extension://pplpdlpnimojihfefnmnhcgbfagkeicf/background.js
+OK    unreadFromTitle("(3) WhatsApp")
+OK    unreadFromTitle("(0) WhatsApp")
+OK    unreadFromTitle("WhatsApp")
+OK    abre una ventana popup al instalarse
+OK    la ventana mide 1280x860
+OK    hay una pestana de web.whatsapp.com
+OK    el badge muestra 7 al cambiar el titulo
+OK    el badge se vacia con (0)
+OK    el segundo openApp reutiliza la ventana
+
+9/9 comprobaciones OK (real, no mock)
+```
+
+Run against **Chromium 158.0.8122.0**. It found two bugs the mock could not:
+
+1. A tab titled `(0) WhatsApp` produced a badge that said **"0"**. Fixed:
+   `unreadFromTitle` now returns `''` for zero.
+2. `chrome.windows.create({ width, height })` was **ignored** when the host
+   window was already sized — the popup opened at 1400x900 instead of 1280x860.
+   Fixed with a follow-up `chrome.windows.update` when the size comes back wrong.
 
 ## What is in the box
 
