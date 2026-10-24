@@ -6,7 +6,7 @@ WhatsApp Web Deluxe
 
 ## Short description (132 characters max)
 
-WhatsApp Web in its own window, with the unread count on your toolbar. 40 KB, no tracking, no account needed.
+WhatsApp Web in its own window, with the unread count on your toolbar. 21 KB, no tracking, no account needed.
 
 ## Detailed description
 
@@ -18,6 +18,9 @@ opening a second one.
 
 The number of unread chats shows up on the toolbar badge, so you can tell at a glance whether anything is
 waiting without keeping a tab open.
+
+A keyboard shortcut (Ctrl+Shift+Y, Cmd+Shift+Y on macOS) opens or focuses it from anywhere, and the options
+page lets you pick a window or a plain tab and the exact window size.
 
 WHAT IT DOES NOT DO
 
@@ -45,14 +48,20 @@ Social & Communication
 
 English (add Spanish as a second locale if you want the LatAm traffic)
 
+## Privacy policy URL (the review form asks for this)
+
+https://barraco002.github.io/whatsapp-web-deluxe/privacy.html
+
 ## Single purpose statement (the review form asks for this)
 
-Open web.whatsapp.com in a dedicated window and reflect its unread message count on the toolbar badge.
+Open web.whatsapp.com in a dedicated window (or tab, per the user's setting), reflect its unread message
+count on the toolbar badge, and provide a keyboard shortcut to reach it.
 
 ## Permission justifications (the review form asks for each)
 
 - **windows**: create the dedicated popup window and re-focus it on later clicks.
-- **storage**: keep the window id for the duration of the browser session so the icon does not spawn duplicates.
+- **storage**: keep the window id for the duration of the browser session so the icon does not spawn duplicates,
+  and remember the user's window-or-tab and window-size preferences.
 - **host permission https://web.whatsapp.com/***: read the tab title to extract the unread count. No page
   content is read and no script is injected.
 
@@ -66,5 +75,10 @@ Open web.whatsapp.com in a dedicated window and reflect its unread message count
 
 Single-purpose wrappers of a single website sit on the edge of the store's policy. Two outcomes are
 realistic: approval in 1-3 days, or rejection for "does not provide enough value beyond the website". If it
-is rejected, the fix is not to resubmit the same thing: add a feature the website does not have (the badge
-already helps, a keyboard shortcut helps more) and say so in the appeal.
+is rejected, the fix is not to resubmit the same thing: add a feature the website does not have and say so
+in the appeal. Version 1.1.0 already ships three of them — the toolbar badge, the keyboard shortcut and the
+window-size preference — and the appeal should name them explicitly.
+
+The submission itself is blocked on one thing only: the developer account costs 25 USD once and needs the
+account holder's own payment details. Everything else (manifest, package, screenshots list, privacy URL) is
+ready.
