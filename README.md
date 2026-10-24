@@ -127,6 +127,25 @@ Run against **Chromium 158.0.8122.0**. It found two bugs the mock could not:
    window was already sized — the popup opened at 1400x900 instead of 1280x860.
    Fixed with a follow-up `chrome.windows.update` when the size comes back wrong.
 
+### And in a real Firefox (Gecko)
+
+`tools/integration-firefox.ps1` installs the `.xpi` into a throwaway Firefox
+Nightly profile, launches it, and looks for the window the extension is supposed
+to open:
+
+```
+xpi     whatsapp-web-deluxe-firefox.xpi   12 404 B
+OK    la extension abre la ventana de WhatsApp
+OK    el add-on queda instalado y activo
+
+2/2 comprobaciones OK (Firefox real)
+```
+
+Run against **Firefox 160.0a1**. The window that appeared was titled
+`https://web.whatsapp.com - WhatsApp — Firefox Nightly`, which means
+`ff-compat.js` did its job: `chrome.windows.create` resolved from the promise-based
+`browser` API. Same file, both engines.
+
 ## What is in the box
 
 | File | Bytes | What it is |
