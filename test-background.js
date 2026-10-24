@@ -1,5 +1,6 @@
 // Prueba de la logica del service worker con un mock de la API de chrome.
 const assert = require('node:assert');
+const path = require('node:path');
 const calls = [];
 const session = {};
 const tick = (ms = 80) => new Promise((r) => setTimeout(r, ms));
@@ -23,7 +24,7 @@ globalThis.chrome = {
   tabs: { onUpdated: { addListener: (f) => { chrome.__updated = f; } } },
   runtime: { onInstalled: { addListener: () => {} } }
 };
-require('D:/dev/whatsapp-deluxe-extension/background.js');
+require(path.join(__dirname, 'background.js'));
 (async () => {
   chrome.__click(); await tick();
   assert.deepStrictEqual(calls[0], ['create', 'popup', 1280, 860], 'abre ventana popup 1280x860');
