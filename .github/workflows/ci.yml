@@ -16,20 +16,33 @@ jobs:
         with:
           node-version: 20
 
-      - name: validate manifest
+      - name: validate Chromium manifest
         run: node tools/validate.js
+
+      - name: validate Firefox manifest
+        run: node tools/validate-firefox.js
 
       - name: unit tests
         run: node test-background.js
 
-      - name: package
+      - name: stage Firefox build
+        run: |
+          rm -rf /tmp/ff && mkdir -p /tmp/ff
+          cp firefox/manifest.json firefox/ff-compat.js background.js privacy.md /tmp/ff/
+          cp -r icons /tmp/ff/
+
+      - name: mozilla lint (web-ext)
+        run: npx --yes web-ext@latest lint --source-dir /tmp/ff
+
+      - name: package both
         run: |
           mkdir -p dist
           zip -r dist/whatsapp-web-deluxe.zip manifest.json background.js privacy.md icons
+          ( cd /tmp/ff && zip -r "$GITHUB_WORKSPACE/dist/whatsapp-web-deluxe-firefox.xpi" . )
           ls -l dist
-          sha256sum dist/whatsapp-web-deluxe.zip
+          sha256sum dist/*
 
       - uses: actions/upload-artifact@v4
         with:
-          name: whatsapp-web-deluxe
-          path: dist/whatsapp-web-deluxe.zip
+          name: packages
+          path: dist/*

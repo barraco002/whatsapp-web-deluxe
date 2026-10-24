@@ -90,8 +90,9 @@ whatsapp-web-deluxe.zip   11 4xx bytes
 ## Checks
 
 ```bash
-node tools/validate.js      # 13/13 — manifest, icons, permissions, no remote code
-node test-background.js     # 6/6  — window reuse, badge, cleanup, foreign tabs ignored
+node tools/validate.js           # 13/13 — Chromium manifest, icons, permissions, no remote code
+node tools/validate-firefox.js   #  6/6  — Gecko manifest, forbidden permissions, script order
+node test-background.js          #  6/6  — window reuse, badge, cleanup, foreign tabs ignored
 ```
 
 Both run in CI on every push. The test uses a hand-written `chrome` mock (no
@@ -111,15 +112,35 @@ and clear the badge, ignore tabs that are not WhatsApp.
 
 Total unpacked: ~13 KB. Total zipped: ~11 KB.
 
+## Other browsers
+
+The code is not Chrome-specific. **Blink** (Chrome, Edge, Brave, Opera, Vivaldi, Arc)
+uses `manifest.json`; **Gecko** (Firefox, LibreWolf) uses `firefox/manifest.json`
+plus an 8-line `ff-compat.js` that points `chrome` at `browser`. `web-ext lint`
+reports **0 errors** on the Firefox build.
+
+```powershell
+powershell -NoProfile -File pack.ps1          # Chromium  -> whatsapp-web-deluxe.zip
+powershell -NoProfile -File pack-firefox.ps1  # Gecko     -> whatsapp-web-deluxe-firefox.xpi
+```
+
+**WebKit/Safari** needs a Mac and an Apple Developer account, so it is not built.
+See [BROWSERS.md](BROWSERS.md) for the full engine matrix, the manifest differences
+that actually matter, and how to install this on a fleet of machines with no store
+and no review at all.
+
 ## Publishing status
 
-| Store | Status | Cost |
-|---|---|---|
-| Chrome Web Store | package ready, **not yet submitted** | one-time 25 USD developer registration |
-| Microsoft Edge Add-ons | same zip works | free |
+| Store | Status | Cost | Review |
+|---|---|---|---|
+| Chrome Web Store | package ready, **not yet submitted** | 25 USD once | 1–3 days |
+| Microsoft Edge Add-ons | same zip works | free | 1–2 days |
+| Firefox AMO | xpi ready, **not yet submitted** | free (signing included) | minutes–2 days |
+| Opera Add-ons | same zip works | free | 1–5 days |
+| Self-hosted / enterprise policy | works today | free | **none** |
 
-If the store challenges the "WhatsApp" name, the drop-in fallback is
-**Deluxe Chat** — a single string in `manifest.json`, nothing else changes.
+If a store challenges the "WhatsApp" name, the drop-in fallback is **Deluxe Chat** —
+a single string in each manifest, nothing else changes.
 
 ## Related
 
