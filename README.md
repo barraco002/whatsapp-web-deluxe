@@ -204,6 +204,23 @@ and no review at all.
 If a store challenges the "WhatsApp" name, the drop-in fallback is **Deluxe Chat** —
 a single string in each manifest, nothing else changes.
 
+## Store assets
+
+Everything a submission needs is already generated, not hand-assembled:
+
+| Asset | File |
+|---|---|
+| Screenshots (1280x800) | `store/screenshot-1-window.png`, `-3-features`, `-2-options` |
+| Small promo tile (440x280) | `store/promo-small-440x280.png` |
+| Marquee (1400x560) | `store/promo-marquee-1400x560.png` |
+| Listing copy | [store-listing.md](store-listing.md) |
+| Submission checklist | [ENVIAR.md](ENVIAR.md) |
+| Public privacy policy | <https://barraco002.github.io/whatsapp-web-deluxe/privacy.html> |
+
+The screenshots are captured from a live browser, not mocked:
+`powershell -File tools/make-screenshots.ps1` starts a Chromium with the
+extension loaded and shoots the real window at 1280x800.
+
 ## Related
 
 - [**Tauri Deluxe**](https://github.com/barraco002/WhatsApp-Tauri) — the desktop
