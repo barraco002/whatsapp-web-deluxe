@@ -87,11 +87,32 @@ web no tiene:
 Si insisten, el plan B es renombrar a **Deluxe Chat**: es una cadena en los dos
 manifiestos, se reempaqueta en un minuto y no cambia nada más.
 
-## Ruta C — Edge Add-ons (gratis)
+## Ruta C — Edge Add-ons (gratis, y no pide tarjeta)
 
-https://partner.microsoft.com/dashboard/microsoftedge → cuenta gratis con el
-mismo correo → **New extension** → el mismo `.zip`. Acepta las mismas capturas
-más la promo 440x280. Revisión 1–2 días.
+La documentación de Microsoft lo dice sin ambigüedad: *«There is no registration
+fee for submitting extensions to the Microsoft Edge program»*
+(<https://learn.microsoft.com/en-us/microsoft-edge/extensions/publish/create-dev-account>).
+Solo hace falta una cuenta Microsoft, que ya tienes si usas Windows.
+
+1. Entra en https://partner.microsoft.com/dashboard/microsoftedge con esa cuenta.
+2. Tipo de cuenta: **Individual**.
+3. **New extension** → sube el mismo `.zip`.
+4. Mismas capturas, más la promo 440x280.
+
+Revisión 1–2 días. **Esta es la ruta sin tarjeta**: si Chrome se atasca, Edge
+publica el mismo producto.
+
+## Sobre el pago de Chrome
+
+Google cobra el registro con tarjeta (crédito o débito). No acepta billeteras
+locales ni transferencias: **Yape no sirve**, ni ninguna app de pago peruana que
+no emita una tarjeta. Lo que sí funciona es una tarjeta virtual Visa o
+Mastercard emitida por un banco o una billetera (BCP, Interbank, BBVA, MACH,
+Ligo), siempre que la emisora permita compras internacionales. Las prepagas a
+veces las rechaza la verificación de Google; las de débito asociadas a cuenta
+suelen pasar.
+
+Mientras eso se resuelve, Firefox y Edge ya dejan publicar sin gastar nada.
 
 ## Ruta D — Opera (gratis)
 

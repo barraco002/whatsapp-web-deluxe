@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "WhatsApp Web Deluxe",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "WhatsApp Web in its own window, with an unread badge on the toolbar. Tiny, no tracking, no data collected.",
   "minimum_chrome_version": "116",
   "action": {

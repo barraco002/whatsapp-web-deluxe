@@ -58,7 +58,18 @@ async function openInTab() {
   await chrome.tabs.create({ url: APP_URL });
 }
 
-async function openApp() {
+// Un clic rapido, el atajo y la instalacion pueden coincidir en el tiempo.
+// Sin este cerrojo, tres clics seguidos abren tres ventanas: findWindow()
+// devuelve null en los tres porque la primera todavia no se ha guardado.
+let opening = null;
+
+function openApp() {
+  if (opening) return opening;
+  opening = doOpenApp().finally(() => { opening = null; });
+  return opening;
+}
+
+async function doOpenApp() {
   const prefs = await getPrefs();
 
   if (prefs.mode === 'tab') {
@@ -128,10 +139,11 @@ async function applyBadge(tabId, title) {
   if (text) await chrome.action.setBadgeBackgroundColor({ tabId, color: BADGE_COLOR });
 }
 
-chrome.tabs.onUpdated.addListener(async (tabId, changeInfo, tab) => {
+chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
   if (!tab.url || !tab.url.startsWith(APP_URL)) return;
   if (!('title' in changeInfo)) return;
-  await applyBadge(tabId, tab.title);
+  // changeInfo.title es el valor nuevo; tab.title puede venir desfasado.
+  void applyBadge(tabId, changeInfo.title || tab.title);
 });
 
 // A tab that was already open when the browser started has no onUpdated event
@@ -143,5 +155,13 @@ async function syncExistingTabs() {
   }
 }
 
-chrome.runtime.onInstalled.addListener(() => { void openApp(); });
+chrome.runtime.onInstalled.addListener((details) => {
+  // Solo en la instalacion. Abrir una ventana en cada actualizacion es
+  // intrusivo y es justo lo que la revision de la tienda penaliza.
+  if (details && details.reason === 'install') void openApp();
+});
 chrome.runtime.onStartup.addListener(() => { void syncExistingTabs(); });
+
+// MV3 duerme el service worker a los ~30 s y el badge por pestana se pierde.
+// Al revivir el worker se repinta sin esperar a que el titulo vuelva a cambiar.
+void syncExistingTabs();
