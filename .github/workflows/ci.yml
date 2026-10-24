@@ -28,7 +28,7 @@ jobs:
       - name: stage Firefox build
         run: |
           rm -rf /tmp/ff && mkdir -p /tmp/ff
-          cp firefox/manifest.json firefox/ff-compat.js background.js privacy.md /tmp/ff/
+          cp firefox/manifest.json firefox/ff-compat.js background.js options.html options.js privacy.md /tmp/ff/
           cp -r icons /tmp/ff/
 
       - name: mozilla lint (web-ext)
@@ -37,10 +37,20 @@ jobs:
       - name: package both
         run: |
           mkdir -p dist
-          zip -r dist/whatsapp-web-deluxe.zip manifest.json background.js privacy.md icons
+          zip -r dist/whatsapp-web-deluxe.zip manifest.json background.js options.html options.js privacy.md icons
           ( cd /tmp/ff && zip -r "$GITHUB_WORKSPACE/dist/whatsapp-web-deluxe-firefox.xpi" . )
           ls -l dist
           sha256sum dist/*
+
+      - name: packages contain what the manifests promise
+        run: |
+          for f in manifest.json background.js options.html options.js privacy.md icons/icon128.png; do
+            unzip -l dist/whatsapp-web-deluxe.zip "$f" | grep -q "$f" || { echo "falta $f en el zip"; exit 1; }
+          done
+          for f in manifest.json ff-compat.js background.js options.html options.js privacy.md icons/icon128.png; do
+            unzip -l dist/whatsapp-web-deluxe-firefox.xpi "$f" | grep -q "$f" || { echo "falta $f en el xpi"; exit 1; }
+          done
+          echo "ambos paquetes contienen los archivos declarados"
 
       - uses: actions/upload-artifact@v4
         with:

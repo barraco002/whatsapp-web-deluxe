@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>WhatsApp Web Deluxe — WhatsApp in its own window</title>
+<meta name="description" content="A tiny browser extension that opens WhatsApp Web in its own window and shows the unread count on the toolbar. No tracking, no data collected.">
+<style>
+  :root { color-scheme: light dark; --green: #25D366; --ink: #0b1f14; }
+  * { box-sizing: border-box; }
+  body { margin: 0; font: 16px/1.6 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; background: #f7faf8; color: #16281f; }
+  @media (prefers-color-scheme: dark) { body { background: #0d1512; color: #e6f0ea; } .card { background: #13211b !important; border-color: #22392f !important; } .muted { color: #9db3a8 !important; } }
+  .wrap { max-width: 760px; margin: 0 auto; padding: 56px 24px 72px; }
+  h1 { font-size: 34px; line-height: 1.15; margin: 0 0 10px; letter-spacing: -.02em; }
+  h2 { font-size: 19px; margin: 40px 0 12px; }
+  .lead { font-size: 18px; color: #3c5348; margin: 0 0 28px; }
+  .muted { color: #5d7568; }
+  .badge { display: inline-flex; align-items: center; gap: 8px; background: var(--green); color: #04220f; font-weight: 700; font-size: 13px; padding: 5px 12px; border-radius: 999px; margin-bottom: 18px; }
+  .card { background: #fff; border: 1px solid #e0ece5; border-radius: 12px; padding: 20px 22px; margin: 0 0 14px; }
+  ul { margin: 0; padding-left: 20px; }
+  li { margin: 6px 0; }
+  a { color: #0b6b3a; }
+  @media (prefers-color-scheme: dark) { a { color: #63d99a; } }
+  code { background: rgba(128,140,133,.18); padding: 1px 5px; border-radius: 4px; font-size: 14px; }
+  .foot { margin-top: 44px; font-size: 13px; color: #6b8377; border-top: 1px solid rgba(128,140,133,.25); padding-top: 18px; }
+  .btn { display: inline-block; background: var(--green); color: #04220f; font-weight: 700; text-decoration: none; padding: 11px 20px; border-radius: 9px; margin: 4px 8px 4px 0; }
+  .btn.ghost { background: transparent; border: 1px solid rgba(128,140,133,.5); color: inherit; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <span class="badge">Manifest V3 &middot; ~21 KB &middot; zero tracking</span>
+  <h1>WhatsApp Web in its own window</h1>
+  <p class="lead">Not another tab that disappears into the pile. One window with its own taskbar entry, the unread count on the toolbar, and a keyboard shortcut. That is the whole product.</p>
+
+  <p>
+    <a class="btn" href="https://github.com/barraco002/whatsapp-web-deluxe/releases/latest">Download</a>
+    <a class="btn ghost" href="https://github.com/barraco002/whatsapp-web-deluxe">Source</a>
+  </p>
+
+  <h2>What it does</h2>
+  <div class="card">
+    <ul>
+      <li><strong>Dedicated window</strong> — opens <code>web.whatsapp.com</code> as a popup window, no tab strip, no address bar.</li>
+      <li><strong>One window, not five</strong> — clicking the icon again brings the existing window to the front.</li>
+      <li><strong>Unread badge</strong> — the <code>(3)</code> in the tab title becomes a badge on the toolbar icon.</li>
+      <li><strong>Keyboard shortcut</strong> — <code>Ctrl+Shift+Y</code> (<code>&#8984;&#8679;Y</code> on macOS), rebindable.</li>
+      <li><strong>Options that stick</strong> — window or tab, and the exact window size.</li>
+    </ul>
+  </div>
+
+  <h2>What it refuses to do</h2>
+  <div class="card">
+    <ul>
+      <li><strong>No content script.</strong> Nothing is injected into the page. The badge comes from the tab <em>title</em>, a first-class browser API.</li>
+      <li><strong>No network requests.</strong> The background script has zero <code>fetch</code>. Your messages never touch anything but WhatsApp's own servers.</li>
+      <li><strong>No remote code.</strong> No <code>eval</code>, no <code>Function</code>, no CDN script — the build fails if any appear.</li>
+      <li><strong>No data collected.</strong> Two permissions: <code>windows</code> and <code>storage</code>. No account, no analytics, no identifiers.</li>
+    </ul>
+  </div>
+
+  <h2>Install right now, without a store</h2>
+  <div class="card">
+    <ul>
+      <li><strong>Chrome, Edge, Brave, Opera:</strong> download the zip, unzip it, open <code>chrome://extensions</code>, turn on <em>Developer mode</em>, click <em>Load unpacked</em> and pick the folder.</li>
+      <li><strong>Firefox:</strong> download the <code>.xpi</code>, open <code>about:debugging#/runtime/this-firefox</code>, <em>Load Temporary Add-on</em>, pick the file.</li>
+    </ul>
+    <p class="muted" style="margin:12px 0 0;font-size:14px">Store listings are being set up. Until then the manual install above is the supported path, and it is the same code.</p>
+  </div>
+
+  <div class="foot">
+    Not affiliated with WhatsApp LLC or Meta. MIT licensed. &middot;
+    <a href="privacy.html">Privacy</a> &middot;
+    <a href="https://github.com/barraco002/whatsapp-web-deluxe">GitHub</a> &middot;
+    <a href="https://github.com/barraco002/WhatsApp-Tauri">Desktop version</a>
+  </div>
+</div>
+</body>
+</html>

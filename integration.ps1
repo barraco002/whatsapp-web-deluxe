@@ -42,6 +42,10 @@ try {
   Start-Sleep -Seconds 2
   & node (Join-Path $root 'tools\integration-chromium.js') --port $Port --ext $root
   $code = $LASTEXITCODE
+  if ($code -eq 0) {
+    & node (Join-Path $root 'tools\integration-options.js') --port $Port
+    $code = $LASTEXITCODE
+  }
 } finally {
   Get-CimInstance Win32_Process -Filter "Name='chrome.exe'" |
     Where-Object { $_.CommandLine -like "*$udd*" } |

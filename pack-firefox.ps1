@@ -8,6 +8,8 @@ New-Item -ItemType Directory -Path $staging | Out-Null
 Copy-Item (Join-Path $root 'firefox\manifest.json') $staging
 Copy-Item (Join-Path $root 'firefox\ff-compat.js')  $staging
 Copy-Item (Join-Path $root 'background.js')          $staging
+Copy-Item (Join-Path $root 'options.html')           $staging
+Copy-Item (Join-Path $root 'options.js')             $staging
 Copy-Item (Join-Path $root 'privacy.md')             $staging
 Copy-Item (Join-Path $root 'icons')                  $staging -Recurse
 

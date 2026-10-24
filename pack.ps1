@@ -11,6 +11,8 @@ $staging = Join-Path $env:TEMP ('deluxe-pack-' + [guid]::NewGuid().ToString('N')
 New-Item -ItemType Directory -Path $staging | Out-Null
 Copy-Item (Join-Path $root 'manifest.json') $staging
 Copy-Item (Join-Path $root 'background.js') $staging
+Copy-Item (Join-Path $root 'options.html')  $staging
+Copy-Item (Join-Path $root 'options.js')    $staging
 Copy-Item (Join-Path $root 'privacy.md')    $staging
 Copy-Item (Join-Path $root 'icons')         $staging -Recurse
 

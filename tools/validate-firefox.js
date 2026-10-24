@@ -65,6 +65,16 @@ for (const size of ['16', '32', '48', '128']) {
 }
 ok.push('iconos 16/32/48/128 presentes');
 
+const optsPage = m.options_ui && m.options_ui.page;
+if (!optsPage) errors.push('falta options_ui.page');
+else if (!resolve(optsPage)) errors.push('options page inexistente: ' + optsPage);
+else ok.push('options_ui ' + optsPage);
+
+const cmd = (m.commands || {})['open-deluxe'];
+if (!cmd) errors.push('falta el comando open-deluxe');
+else if (!cmd.suggested_key || !cmd.suggested_key.default) errors.push('open-deluxe sin suggested_key.default');
+else ok.push('comando open-deluxe ' + cmd.suggested_key.default);
+
 for (const line of ok) console.log('OK   ' + line);
 for (const line of errors) console.log('FALLO ' + line);
 console.log(errors.length === 0 ? '\n' + ok.length + '/' + ok.length + ' comprobaciones OK (firefox)' : '\n' + errors.length + ' errores (firefox)');

@@ -4,15 +4,22 @@ const path = require('node:path');
 
 const calls = [];
 const session = {};
+const prefs = {};
 const state = { createDims: { width: 1280, height: 860 }, tabs: [] };
 const tick = (ms = 80) => new Promise((r) => setTimeout(r, ms));
 
 globalThis.chrome = {
-  storage: { session: {
-    get: async (k) => ({ [k]: session[k] }),
-    set: async (o) => { Object.assign(session, o); },
-    remove: async (k) => { delete session[k]; }
-  } },
+  storage: {
+    session: {
+      get: async (k) => ({ [k]: session[k] }),
+      set: async (o) => { Object.assign(session, o); },
+      remove: (k) => { delete session[k]; }
+    },
+    sync: {
+      get: async (defaults) => Object.assign({}, defaults, prefs),
+      set: async (o) => { Object.assign(prefs, o); }
+    }
+  },
   windows: {
     get: async (id) => { if (id === session.deluxeWindowId) return { id }; throw new Error('no window'); },
     create: async (opts) => {
@@ -20,7 +27,6 @@ globalThis.chrome = {
       return { id: 100, width: state.createDims.width, height: state.createDims.height };
     },
     update: async (id, o) => { calls.push(['update', id, o]); },
-    remove: async (id) => { calls.push(['remove', id]); },
     onRemoved: { addListener: (f) => { chrome.__removed = f; } }
   },
   action: {
@@ -28,10 +34,14 @@ globalThis.chrome = {
     setBadgeText: async (o) => { calls.push(['badge', o.tabId, o.text]); },
     setBadgeBackgroundColor: async (o) => { calls.push(['badgeColor', o.tabId, o.color]); }
   },
+  commands: {
+    onCommand: { addListener: (f) => { chrome.__command = f; } }
+  },
   tabs: {
     onUpdated: { addListener: (f) => { chrome.__updated = f; } },
     query: async () => state.tabs,
-    create: async (o) => { calls.push(['tabCreate', o.url]); return { id: 55 }; }
+    create: async (o) => { calls.push(['tabCreate', o.url]); return { id: 55 }; },
+    update: async (id, o) => { calls.push(['tabUpdate', id, o]); }
   },
   runtime: {
     onInstalled: { addListener: (f) => { chrome.__installed = f; } },
@@ -102,5 +112,35 @@ require(path.join(__dirname, 'background.js'));
     'el arranque pone el badge de las pestanas que ya estaban abiertas'
   );
 
-  console.log('10/10 aserciones OK');
+  // 11. modo pestana: no abre ventana, reutiliza la pestana existente
+  prefs.mode = 'tab';
+  session.deluxeWindowId = undefined;
+  calls.length = 0;
+  chrome.__click(); await tick();
+  assert.strictEqual(calls.filter((c) => c[0] === 'create').length, 0, 'en modo pestana no crea ventana');
+  assert.deepStrictEqual(calls[0], ['tabUpdate', 21, { active: true }], 'en modo pestana reutiliza la pestana abierta');
+
+  // 12. modo pestana sin pestana previa crea una
+  state.tabs = [];
+  calls.length = 0;
+  chrome.__click(); await tick();
+  assert.deepStrictEqual(calls[0], ['tabCreate', 'https://web.whatsapp.com/'], 'en modo pestana abre una pestana nueva');
+
+  // 13. las preferencias de tamano se aplican
+  prefs.mode = 'window';
+  prefs.width = 1000;
+  prefs.height = 700;
+  state.tabs = [];
+  calls.length = 0;
+  chrome.__click(); await tick();
+  assert.deepStrictEqual(calls[0], ['create', 'popup', 1000, 700], 'respeta el tamano guardado en opciones');
+
+  // 14. el atajo de teclado abre igual que el clic
+  prefs.width = 1280; prefs.height = 860;
+  session.deluxeWindowId = undefined;
+  calls.length = 0;
+  chrome.__command('open-deluxe'); await tick();
+  assert.ok(calls.some((c) => c[0] === 'create'), 'el atajo de teclado abre la app');
+
+  console.log('14/14 aserciones OK');
 })().catch((e) => { console.error('FALLO:', e.message); process.exit(1); });

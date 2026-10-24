@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>WhatsApp Web Deluxe &mdash; Options</title>
+<style>
+  :root { color-scheme: light dark; }
+  body { font: 14px/1.5 system-ui, -apple-system, Segoe UI, Roboto, sans-serif; margin: 0; padding: 24px; max-width: 520px; }
+  h1 { font-size: 17px; margin: 0 0 4px; }
+  .sub { margin: 0 0 20px; opacity: .7; }
+  fieldset { border: 1px solid rgba(128,128,128,.35); border-radius: 8px; padding: 12px 14px; margin: 0 0 14px; }
+  legend { padding: 0 6px; font-weight: 600; }
+  label { display: block; margin: 6px 0; }
+  label.inline { display: flex; align-items: center; gap: 8px; }
+  input[type=number] { width: 84px; padding: 4px 6px; }
+  button { padding: 7px 16px; border-radius: 7px; border: 0; background: #25D366; color: #04220f; font-weight: 600; cursor: pointer; }
+  button:disabled { opacity: .6; cursor: default; }
+  #msg { margin-left: 10px; font-weight: 600; }
+  .hint { margin-top: 20px; opacity: .7; font-size: 13px; }
+  kbd { border: 1px solid rgba(128,128,128,.5); border-radius: 4px; padding: 0 4px; font: inherit; }
+  code { font-size: 12px; }
+</style>
+</head>
+<body>
+  <h1>WhatsApp Web Deluxe</h1>
+  <p class="sub">How the app opens. Changes apply the next time you open it.</p>
+
+  <form id="form">
+    <fieldset>
+      <legend>Open as</legend>
+      <label class="inline"><input type="radio" name="mode" value="window"> Its own window <strong>(recommended)</strong></label>
+      <label class="inline"><input type="radio" name="mode" value="tab"> A normal tab</label>
+    </fieldset>
+
+    <fieldset>
+      <legend>Window size</legend>
+      <label class="inline">Width <input id="width" type="number" min="640" max="3840" step="10"> px</label>
+      <label class="inline">Height <input id="height" type="number" min="480" max="2160" step="10"> px</label>
+    </fieldset>
+
+    <button id="save" type="submit">Save</button><span id="msg" role="status"></span>
+  </form>
+
+  <p class="hint">
+    Shortcut: <kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>Y</kbd> opens it (<kbd>&#8984;</kbd><kbd>Shift</kbd><kbd>Y</kbd> on macOS).
+    Change it in <code>chrome://extensions/shortcuts</code>, or <code>about:addons</code> &rarr; gear &rarr; Manage Extension Shortcuts.
+  </p>
+
+  <script src="options.js" defer></script>
+</body>
+</html>

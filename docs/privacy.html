@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Privacy — WhatsApp Web Deluxe</title>
+<meta name="description" content="WhatsApp Web Deluxe collects no data. No analytics, no tracking, no network requests of its own.">
+<style>
+  :root { color-scheme: light dark; --green: #25D366; --ink: #0b1f14; }
+  * { box-sizing: border-box; }
+  body { margin: 0; font: 16px/1.6 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; background: #f7faf8; color: #16281f; }
+  @media (prefers-color-scheme: dark) { body { background: #0d1512; color: #e6f0ea; } .card { background: #13211b !important; border-color: #22392f !important; } .muted { color: #9db3a8 !important; } }
+  .wrap { max-width: 760px; margin: 0 auto; padding: 56px 24px 72px; }
+  h1 { font-size: 34px; line-height: 1.15; margin: 0 0 10px; letter-spacing: -.02em; }
+  h2 { font-size: 19px; margin: 40px 0 12px; }
+  .lead { font-size: 18px; color: #3c5348; margin: 0 0 28px; }
+  .muted { color: #5d7568; }
+  .badge { display: inline-flex; align-items: center; gap: 8px; background: var(--green); color: #04220f; font-weight: 700; font-size: 13px; padding: 5px 12px; border-radius: 999px; margin-bottom: 18px; }
+  .card { background: #fff; border: 1px solid #e0ece5; border-radius: 12px; padding: 20px 22px; margin: 0 0 14px; }
+  ul { margin: 0; padding-left: 20px; }
+  li { margin: 6px 0; }
+  a { color: #0b6b3a; }
+  @media (prefers-color-scheme: dark) { a { color: #63d99a; } }
+  code { background: rgba(128,140,133,.18); padding: 1px 5px; border-radius: 4px; font-size: 14px; }
+  .foot { margin-top: 44px; font-size: 13px; color: #6b8377; border-top: 1px solid rgba(128,140,133,.25); padding-top: 18px; }
+  .btn { display: inline-block; background: var(--green); color: #04220f; font-weight: 700; text-decoration: none; padding: 11px 20px; border-radius: 9px; margin: 4px 8px 4px 0; }
+  .btn.ghost { background: transparent; border: 1px solid rgba(128,140,133,.5); color: inherit; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>Privacy policy</h1>
+  <p class="muted">WhatsApp Web Deluxe &mdash; last updated 24 October 2026</p>
+
+  <h2>The short version</h2>
+  <div class="card">
+    <p style="margin:0"><strong>This extension collects nothing.</strong> No analytics, no telemetry, no crash reports, no usage statistics, no advertising identifiers, no accounts. There is no server to send anything to.</p>
+  </div>
+
+  <h2>What is stored, and where</h2>
+  <div class="card">
+    <ul>
+      <li><strong>A window id</strong> in <code>chrome.storage.session</code>: memory only, cleared when the browser session ends. It exists so a second click focuses the window instead of opening another one.</li>
+      <li><strong>Your three preferences</strong> in <code>chrome.storage.sync</code>: window or tab, width and height. If you have browser sync enabled, your browser vendor may sync them across your own devices; that is your browser's behaviour, not a server of ours.</li>
+    </ul>
+    <p style="margin:12px 0 0">Nothing else is written to disk. There is no database, no log file and no exported history.</p>
+  </div>
+
+  <h2>What the extension can see</h2>
+  <div class="card">
+    <ul>
+      <li><strong>Tab titles</strong> of <code>https://web.whatsapp.com/</code>, read through <code>chrome.tabs.onUpdated</code> to turn <code>(3) WhatsApp</code> into a badge that says 3.</li>
+      <li><strong>That is the entire surface.</strong> There is no content script, so page content, message text, contacts and media are never read, never parsed and never copied anywhere.</li>
+    </ul>
+  </div>
+
+  <h2>Network</h2>
+  <div class="card">
+    <p style="margin:0">The background script makes <strong>no network requests</strong>. It has no <code>fetch</code>, no <code>XMLHttpRequest</code> and no remote script. Everything you type goes from your browser to WhatsApp's own servers exactly as it would in a normal tab.</p>
+  </div>
+
+  <h2>Permissions, and why each one exists</h2>
+  <div class="card">
+    <ul>
+      <li><code>windows</code> &mdash; create, focus and measure the dedicated window.</li>
+      <li><code>storage</code> &mdash; remember the window id and your three preferences.</li>
+      <li><code>host_permissions: https://web.whatsapp.com/*</code> &mdash; needed to observe that tab's title for the badge.</li>
+    </ul>
+    <p style="margin:12px 0 0">No <code>tabs</code>, no <code>notifications</code>, no <code>&lt;all_urls&gt;</code>, no <code>webRequest</code>, no <code>cookies</code>.</p>
+  </div>
+
+  <h2>Third parties</h2>
+  <div class="card">
+    <p style="margin:0">None. No third-party service, SDK, library or CDN is used. The extension is one manifest, one background script, one options page and four PNG icons.</p>
+  </div>
+
+  <h2>Contact</h2>
+  <div class="card">
+    <p style="margin:0">Questions or a bug report: <a href="https://github.com/barraco002/whatsapp-web-deluxe/issues">open an issue</a>.</p>
+  </div>
+
+  <div class="foot">
+    Not affiliated with WhatsApp LLC or Meta. &middot;
+    <a href="index.html">Home</a> &middot;
+    <a href="https://github.com/barraco002/whatsapp-web-deluxe">GitHub</a>
+  </div>
+</div>
+</body>
+</html>
